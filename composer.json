@@ -1,0 +1,17 @@
+{
+    "name": "arig/mahalanobis-distance",
+    "description": "Mahalanobis distance",
+    "autoload": {
+        "psr-4": {
+            "Arig\\MahalanobisDistance\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arijus Grotuzas"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    }
+}
