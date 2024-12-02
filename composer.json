@@ -4,13 +4,19 @@
     "autoload": {
         "psr-4": {
             "Arig\\MahalanobisDistance\\": "src/"
-        }
+        },
+        "files": [
+            "src/Math/helpers.php"
+        ]
     },
     "authors": [
         {
             "name": "Arijus Grotuzas"
         }
     ],
+    "require": {
+        "php": "^8.0"
+    },
     "require-dev": {
         "phpunit/phpunit": "^11"
     }

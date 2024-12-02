@@ -20,20 +20,6 @@ final class MahalanobisDistanceTest extends TestCase
         );
     }
 
-    public function testMeanVector(): void
-    {
-        $data = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
-        ];
-
-        $this->assertEquals(
-            [4.0, 5.0, 6.0],
-            MahalanobisDistance::meanVector($data)
-        );
-    }
-
     public function testVectorMatrixMul(): void
     {
         $vector = [1, 2, 3];

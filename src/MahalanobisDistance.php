@@ -2,10 +2,12 @@
 
 namespace Arig\MahalanobisDistance;
 
+use Arig\MahalanobisDistance\Exceptions\NonSquareMatrixException;
+use Arig\MahalanobisDistance\Exceptions\SingularMatrixException;
 use InvalidArgumentException;
 
 /**
- *
+ * @see https://www.machinelearningplus.com/statistics/mahalanobis-distance/
  */
 class MahalanobisDistance
 {
@@ -16,54 +18,18 @@ class MahalanobisDistance
      */
     public static function calculate(array $point, array $data): float
     {
-        $covarianceMat = MahalanobisDistance::covarianceMatrix($data);
-        $meanVector = self::meanVector($data);
+        $covarianceMat = covariance_matrix($data);
+        $meanVector = mean_vector($data);
 
         // Calculate the difference between the point and the mean
-        $pointMinusMean = array_map(function (float $x, float $y): array {
-            return [$x - $y];
-        }, $point, $meanVector);
+        $pointMinusMean = vector_sub($point, $meanVector);
 
         $pointMinusMeanT = array_column($pointMinusMean, 0);
 
         $inverseCovariance = self::findInverse($covarianceMat);
         $leftTerm = self::matrixMul($inverseCovariance, $pointMinusMean);
 
-        return sqrt(self::dot($pointMinusMeanT, array_column($leftTerm, 0)));
-    }
-
-    public static function covarianceMatrix(array $data): array
-    {
-        $keys = array_keys($data);
-
-        return array_map(function (array $dataX, int $keyX) use ($data, $keys): array {
-            $meanX = array_sum($dataX) / count($dataX);
-
-            return array_map(function (array $dataY, int $keyY) use ($keyX, $dataX, $meanX): float {
-                $meanY = array_sum($dataY) / count($dataY);
-
-                if ($keyX === $keyY) {
-                    return self::variance($dataX, $meanX);
-                }
-
-                return self::covariance($dataX, $dataY, $meanX, $meanY);
-            }, $data, $keys);
-        }, $data, $keys);
-    }
-
-    public static function variance(array $data, float $mean): float
-    {
-        return array_sum(array_map(fn(float $var): float => pow($var - $mean, 2), $data)) / count($data);
-    }
-
-    public static function covariance(array $dataX, array $dataY, float $meanX, float $meanY): float
-    {
-        return array_sum(array_map(fn(float $varX, float $varY): float => ($varX - $meanX) * ($varY - $meanY), $dataX, $dataY)) / count($dataX);
-    }
-
-    public static function meanVector($data): array
-    {
-        return array_map(fn(array $varData): float => array_sum($varData) / count($varData), $data);
+        return sqrt(dot($pointMinusMeanT, array_column($leftTerm, 0)));
     }
 
     public static function findInverse($matrix): array
@@ -73,10 +39,10 @@ class MahalanobisDistance
 
         // Check if the matrix is square
         if ($m !== $n) {
-            throw new InvalidArgumentException("Matrix is not square. Cannot find inverse.");
+            throw new NonSquareMatrixException("Matrix is not square. Cannot find inverse.");
         }
 
-        $identity = self::createIdentityMatrix($m);
+        $identity = identity_matrix($m);
         $augmentedMatrix = array_merge($matrix, $identity);
 
         $h = 0;
@@ -93,7 +59,7 @@ class MahalanobisDistance
 
             // If pivot is zero, no unique solution exists
             if ($augmentedMatrix[$iMax][$k] == 0) {
-                throw new InvalidArgumentException("Matrix is singular. Cannot find inverse.");
+                throw new SingularMatrixException("Matrix is singular. Cannot find inverse.");
             }
 
             // Swap rows
@@ -128,17 +94,6 @@ class MahalanobisDistance
         return $inverse;
     }
 
-    public static function createIdentityMatrix($size): array
-    {
-        $identity = array_fill(0, $size, array_fill(0, $size * 2, 0));
-
-        for ($i = 0; $i < $size; $i++) {
-            $identity[$i][$i + $size] = 1;
-        }
-
-        return $identity;
-    }
-
     public static function matrixMul(array $matrixA, array $matrixB): array
     {
         // TODO: check if both matrices have the same amount of columns
@@ -149,7 +104,7 @@ class MahalanobisDistance
             $resRow = [];
 
             foreach (array_keys($matrixB[0]) as $colIdxB) {
-                $resRow[$colIdxB] = self::dot($rowA, array_column($matrixB, $colIdxB));
+                $resRow[$colIdxB] = dot($rowA, array_column($matrixB, $colIdxB));
             }
 
             $res[$rowKey] = $resRow;
@@ -158,14 +113,9 @@ class MahalanobisDistance
         return $res;
     }
 
-    public static function dot(array $vectorA, array $vectorB): float
-    {
-        return array_sum(array_map(fn(float $valA, float $valB) => $valA * $valB, $vectorA, $vectorB));
-    }
-
     public static function vectorMatrixMul(array $vector, array $matrix): array
     {
-        return array_map(fn(array $row): float => self::dot($vector, $row), $matrix);
+        return array_map(fn(array $row): float => dot($vector, $row), $matrix);
     }
 
     public static function inverseMatrix(array $matrix, array $data): array
