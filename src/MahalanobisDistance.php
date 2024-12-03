@@ -12,27 +12,23 @@ use InvalidArgumentException;
 class MahalanobisDistance
 {
     /**
-     * @param array<float|int> $point
-     * @param array<float|int> $data
+     * @param array<float|int> $x
+     * @param array<array<float|int>> $data
      * @return float
      */
-    public static function calculate(array $point, array $data): float
+    public static function calculate(array $x, array $data): float
     {
         $covarianceMat = covariance_matrix($data);
         $meanVector = mean_vector($data);
 
-        // Calculate the difference between the point and the mean
-        $pointMinusMean = vector_sub($point, $meanVector);
+        $xMinusMu = vector_sub($x, $meanVector);
+        $inverseCovarianceMatrix = self::inverse($covarianceMat);
+        $leftTerm = self::matrixMul($inverseCovarianceMatrix, $xMinusMu);
 
-        $pointMinusMeanT = array_column($pointMinusMean, 0);
-
-        $inverseCovariance = self::findInverse($covarianceMat);
-        $leftTerm = self::matrixMul($inverseCovariance, $pointMinusMean);
-
-        return sqrt(dot($pointMinusMeanT, array_column($leftTerm, 0)));
+        return sqrt(dot($leftTerm, vector_transpose($xMinusMu)));
     }
 
-    public static function findInverse($matrix): array
+    public static function inverse($matrix): array
     {
         $m = count($matrix);
         $n = count($matrix[0]);

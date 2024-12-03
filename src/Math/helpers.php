@@ -66,12 +66,20 @@ if (! function_exists('covariance_matrix')) {
     }
 }
 
-
 if (! function_exists('vector_sub')) {
     function vector_sub(array $vectorA, array $vectorB): array
     {
-        return array_map(function (float $a, float $b): array {
-            return [$a - $b];
+        return array_map(function (float|int $a, float|int $b): float|int {
+            return $a - $b;
         }, $vectorA, $vectorB);
+    }
+}
+
+if (! function_exists('vector_transpose')) {
+    function vector_transpose(array $vector): array
+    {
+        return array_map(function (array $element): array {
+            return [$element];
+        }, $vector);
     }
 }
