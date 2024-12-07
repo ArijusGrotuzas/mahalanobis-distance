@@ -7,11 +7,12 @@ final class MahalanobisDistanceTest extends TestCase
 {
     public function testCalculate(): void
     {
-        $point = [1, 2, 3];
+        $point = [3.5, 4.5];
         $data = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
+            [2, 3],
+            [3, 4],
+            [4, 5],
+            [5, 6],
         ];
 
         $this->assertEquals(
@@ -20,36 +21,39 @@ final class MahalanobisDistanceTest extends TestCase
         );
     }
 
-    public function testVectorMatrixMul(): void
+    public function testCholesky(): void
     {
-        $vector = [1, 2, 3];
         $matrix = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
+            [18, 22, 54, 42],
+            [22, 70, 86, 62],
+            [54, 86, 174, 134],
+            [42, 62, 134, 106],
         ];
 
-        $this->assertEquals(
-            [14.0, 32.0, 50.0],
-            MahalanobisDistance::vectorMatrixMul($vector, $matrix)
-        );
+        var_dump(MahalanobisDistance::cholesky($matrix));
+
+//        $this->assertEquals(
+//            [
+//                [-4.503599627370496e+15, 9.007199254740992e+15, -4.503599627370496e+15],
+//                [9.007199254740992e+15, -1.8014398509481984e+16, 9.007199254740992e+15],
+//                [-4.503599627370496e+15, 9.007199254740992e+15, -4.503599627370496e+15],
+//            ],
+//            MahalanobisDistance::cholesky($matrix)
+//        );
     }
 
-    public function testInverseMatrix(): void
+    public function testForwardSubstitution(): void
     {
         $matrix = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
+            [2, 0, 0],
+            [3, 1, 0],
+            [1, 2, 1],
         ];
+        $vector = [4, 7, 6];
 
         $this->assertEquals(
-            [
-                [-4.503599627370496e+15, 9.007199254740992e+15, -4.503599627370496e+15],
-                [9.007199254740992e+15, -1.8014398509481984e+16, 9.007199254740992e+15],
-                [-4.503599627370496e+15, 9.007199254740992e+15, -4.503599627370496e+15],
-            ],
-            MahalanobisDistance::inverseMatrix($matrix)
+            [2, 1, 2],
+            MahalanobisDistance::forwardSubstitution($matrix, $vector)
         );
     }
 }
