@@ -6,6 +6,8 @@ use Arig\MahalanobisDistance\Exceptions\NonSquareMatrixException;
 use Arig\MahalanobisDistance\Exceptions\SingularMatrixException;
 use InvalidArgumentException;
 
+// TODO: Provide doc strings for functions
+
 /**
  * @see https://www.machinelearningplus.com/statistics/mahalanobis-distance/
  * @see https://rosettacode.org/wiki/Cholesky_decomposition
@@ -20,7 +22,7 @@ class MahalanobisDistance
     public static function calculate(array $x, array $data): float
     {
         // TODO: Provide input validation
-
+        // TODO: Make comments about the computation
         $covarianceMat = covariance_matrix($data);
         $meanVector = self::meanVector($data);
 
@@ -55,6 +57,11 @@ class MahalanobisDistance
         return $l;
     }
 
+    /**
+     * @param array $L
+     * @param array $b
+     * @return array
+     */
     public static function forwardSubstitution(array $L, array $b): array
     {
         $m = count($b);
