@@ -56,17 +56,6 @@ if (! function_exists('identity_matrix')) {
     }
 }
 
-if (! function_exists('mean_vector')) {
-    /**
-     * @param array<array<float|int>> $data
-     * @return array
-     */
-    function mean_vector(array $data): array
-    {
-        return array_map(fn (array $variable): float => array_sum($variable) / count($variable), $data);
-    }
-}
-
 if (! function_exists('covariance_matrix')) {
     /**
      * @param array<array<float|int>> $data

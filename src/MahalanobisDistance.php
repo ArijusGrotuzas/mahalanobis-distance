@@ -22,12 +22,11 @@ class MahalanobisDistance
         // TODO: Provide input validation
 
         $covarianceMat = covariance_matrix($data);
-        $meanVector = mean_vector($data);
-
-        $L = self::cholesky($covarianceMat);
+        $meanVector = self::meanVector($data);
 
         $xMinusMu = vector_sub($x, $meanVector);
 
+        $L = self::cholesky($covarianceMat);
         $z = self::forwardSubstitution($L, $xMinusMu);
 
         return sqrt(dot($z, $z));
@@ -66,5 +65,14 @@ class MahalanobisDistance
         }
 
         return $x;
+    }
+
+    /**
+     * @param array<array<float|int>> $data
+     * @return array
+     */
+    private static function meanVector(array $data): array
+    {
+        return array_map(fn (array $variable): float => array_sum($variable) / count($variable), $data);
     }
 }
