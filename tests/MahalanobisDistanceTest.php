@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Arig\MahalanobisDistance\MahalanobisDistance;
 
+// TODO: Add messages to assertions
 final class MahalanobisDistanceTest extends TestCase
 {
     public function testCalculate(): void
@@ -16,7 +17,7 @@ final class MahalanobisDistanceTest extends TestCase
         $this->assertEqualsWithDelta(
             0.24343,
             MahalanobisDistance::calculate($point, $data),
-            0.01
+            0.00001
         );
     }
 
@@ -44,15 +45,20 @@ final class MahalanobisDistanceTest extends TestCase
             [42, 62, 134, 106],
         ];
 
-        $this->assertEquals(
-            [
-                [4.24264069, 0.0, 0.0, 0.0],
-                [5.18544973, 6.5659052, 0.0, 0.0],
-                [12.72792205, 3.0460385, 1.64974233, 0.0],
-                [9.89949493, 1.62455387, 1.84971102, 1.39262127]
-            ],
-            MahalanobisDistance::cholesky($matrix)
-        );
+        $expected = [
+            [4.24264069, 0.0, 0.0, 0.0],
+            [5.18544973, 6.5659052, 0.0, 0.0],
+            [12.72792205, 3.0460385, 1.64974233, 0.0],
+            [9.89949493, 1.62455387, 1.84971102, 1.39262127]
+        ];
+
+        $actual = MahalanobisDistance::cholesky($matrix);
+
+        foreach ($expected as $i => $row) {
+            foreach ($row as $j => $value) {
+                $this->assertEqualsWithDelta($value, $actual[$i][$j], 0.00001, "Failed asserting that {$actual[$i][$j]} is equal to $value");
+            }
+        }
     }
 
     public function testForwardSubstitution(): void

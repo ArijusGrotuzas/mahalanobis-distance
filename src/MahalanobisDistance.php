@@ -58,20 +58,22 @@ class MahalanobisDistance
     }
 
     /**
-     * @param array $L
-     * @param array $b
-     * @return array
+     * Solve the equation Ax = b for x, assuming A is a triangular matrix.
+     *
+     * @param array<array<float|int>> $a
+     * @param array<float|int> $x
+     * @return array<float|int>
      */
-    public static function forwardSubstitution(array $L, array $b): array
+    public static function forwardSubstitution(array $a, array $x): array
     {
-        $m = count($b);
-        $x = array_fill(0, $m, 0);
+        $m = count($x);
+        $b = array_fill(0, $m, 0);
 
         for ($i = 0; $i < $m; $i++) {
-            $x[$i] = ($b[$i] - dot(array_slice($L[$i], 0, $i), array_slice($x, 0, $i))) / $L[$i][$i];
+            $b[$i] = ($x[$i] - dot(array_slice($a[$i], 0, $i), array_slice($b, 0, $i))) / $a[$i][$i];
         }
 
-        return $x;
+        return $b;
     }
 
     /**
