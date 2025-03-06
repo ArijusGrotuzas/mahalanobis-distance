@@ -23,11 +23,14 @@ class MahalanobisDistance
     {
         // TODO: Provide input validation
         // TODO: Make comments about the computation
+        // TODO: Input validation for covariance matrix
         $covarianceMat = covariance_matrix($data);
         $meanVector = self::meanVector($data);
 
         $xMinusMu = vector_sub($x, $meanVector);
 
+        // TODO: Input validation for Cholesky decomposition
+        // TODO: Input validation for forward substitution
         $L = self::cholesky($covarianceMat);
         $z = self::forwardSubstitution($L, $xMinusMu);
 

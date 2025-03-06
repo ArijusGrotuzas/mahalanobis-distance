@@ -1,9 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Arig\MahalanobisDistance\MahalanobisDistance;
+use PHPUnit\Framework\TestCase;
 
-// TODO: Add messages to assertions
 final class MahalanobisDistanceTest extends TestCase
 {
     public function testCalculate(): void
@@ -17,11 +16,13 @@ final class MahalanobisDistanceTest extends TestCase
         $this->assertEqualsWithDelta(
             0.24343,
             MahalanobisDistance::calculate($point, $data),
-            0.00001
+            0.00001,
+            "The calculated distance is not similar to the expected distance."
         );
     }
 
-    public function testCholeskySimple(): void {
+    public function testCholeskySimple(): void
+    {
         $matrix = [
             [1, -2],
             [2, 5]
@@ -32,7 +33,8 @@ final class MahalanobisDistanceTest extends TestCase
                 [1, 0],
                 [2, 1],
             ],
-            MahalanobisDistance::cholesky($matrix)
+            MahalanobisDistance::cholesky($matrix),
+            "The calculated Cholesky decomposition doesn't match the expected decomposition."
         );
     }
 
@@ -56,7 +58,12 @@ final class MahalanobisDistanceTest extends TestCase
 
         foreach ($expected as $i => $row) {
             foreach ($row as $j => $value) {
-                $this->assertEqualsWithDelta($value, $actual[$i][$j], 0.00001, "Failed asserting that {$actual[$i][$j]} is equal to $value");
+                $this->assertEqualsWithDelta(
+                    $value,
+                    $actual[$i][$j],
+                    0.00001,
+                    "Failed asserting that $i, $j element: {$actual[$i][$j]} is equal to $value"
+                );
             }
         }
     }
@@ -72,7 +79,8 @@ final class MahalanobisDistanceTest extends TestCase
 
         $this->assertEquals(
             [2, 1, 2],
-            MahalanobisDistance::forwardSubstitution($matrix, $vector)
+            MahalanobisDistance::forwardSubstitution($matrix, $vector),
+            "The calculated forward substitution doesn't match the expected result."
         );
     }
 }
