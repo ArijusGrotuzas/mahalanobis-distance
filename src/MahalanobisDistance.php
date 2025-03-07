@@ -43,6 +43,10 @@ class MahalanobisDistance
      */
     public static function cholesky(array $matrix): array
     {
+        // Needs to be square matrix
+        // Covariance matrix is always square and symmetric
+        // Needs to be symmetric
+        // Needs to be positive definite
         $size = count($matrix);
         $l = array_fill(0, $size, array_fill(0, $size, 0.0));
 
@@ -53,6 +57,8 @@ class MahalanobisDistance
                     $sum += $l[$i][$j] * $l[$k][$j];
                 }
 
+                // TODO: Throw an error if the matrix is not positive definite
+                // sqrt() of a negative number will return NAN
                 $l[$i][$k] = ($i == $k) ? round(sqrt($matrix[$i][$i] - $sum), 8) : round(1.0 / $l[$k][$k] * ($matrix[$i][$k] - $sum), 8);
             }
         }

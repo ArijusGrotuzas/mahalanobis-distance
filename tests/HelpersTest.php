@@ -24,6 +24,7 @@ class HelpersTest extends TestCase
             'y' => [3, 1.1, 0.12]
         ];
 
+        // TODO: Assert with delta instead
         $this->assertEquals(
             [
                 [11.71, -4.286],
