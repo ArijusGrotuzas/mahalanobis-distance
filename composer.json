@@ -1,23 +1,24 @@
 {
-    "name": "arig/mahalanobis-distance",
-    "description": "Mahalanobis distance",
-    "autoload": {
-        "psr-4": {
-            "Arig\\MahalanobisDistance\\": "src/"
-        },
-        "files": [
-            "src/Math/helpers.php"
-        ]
+  "name": "arig/mahalanobis-distance",
+  "description": "Mahalanobis distance",
+  "autoload": {
+    "psr-4": {
+      "Arig\\MahalanobisDistance\\": "src/"
     },
-    "authors": [
-        {
-            "name": "Arijus Grotuzas"
-        }
-    ],
-    "require": {
-        "php": "^8.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^11"
+    "files": [
+      "src/Math/helpers.php"
+    ]
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Arijus Grotuzas"
     }
+  ],
+  "require": {
+    "php": "^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11"
+  }
 }

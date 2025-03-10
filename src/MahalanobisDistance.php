@@ -2,13 +2,13 @@
 
 namespace Arig\MahalanobisDistance;
 
-use Arig\MahalanobisDistance\Exceptions\NonSquareMatrixException;
-use Arig\MahalanobisDistance\Exceptions\SingularMatrixException;
-use InvalidArgumentException;
-
 // TODO: Provide doc strings for functions
 
 /**
+ * The Mahalanobis distance is a measure of the distance between a point P and a distribution D.
+ * The class computes the mahalanobis distance by finding the product between inverse covariance matrix and the
+ * difference between the point and the mean, by using Cholesky decomposition and forward substitution.
+ *
  * @see https://www.machinelearningplus.com/statistics/mahalanobis-distance/
  * @see https://rosettacode.org/wiki/Cholesky_decomposition
  */
@@ -35,6 +35,15 @@ class MahalanobisDistance
         $z = self::forwardSubstitution($L, $xMinusMu);
 
         return sqrt(dot($z, $z));
+    }
+
+    /**
+     * @param array<array<float|int>> $data
+     * @return array
+     */
+    private static function meanVector(array $data): array
+    {
+        return array_map(fn(array $variable): float => array_sum($variable) / count($variable), $data);
     }
 
     /**
@@ -83,14 +92,5 @@ class MahalanobisDistance
         }
 
         return $b;
-    }
-
-    /**
-     * @param array<array<float|int>> $data
-     * @return array
-     */
-    private static function meanVector(array $data): array
-    {
-        return array_map(fn (array $variable): float => array_sum($variable) / count($variable), $data);
     }
 }
