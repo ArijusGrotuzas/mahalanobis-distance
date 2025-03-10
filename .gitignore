@@ -3,3 +3,5 @@ composer.phar
 
 # PHP Storm project files
 /.idea/
+
+.phpunit.result.cache
