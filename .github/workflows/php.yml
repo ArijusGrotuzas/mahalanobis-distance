@@ -55,7 +55,7 @@ jobs:
           name: coverage-report-artifact
 
       - name: Test artifact
-        run: cat reports/index.xml
+        run: ls -a
           
       # - name: Run codacy-coverage-reporter
       #   uses: codacy/codacy-coverage-reporter-action@v1.3.0
