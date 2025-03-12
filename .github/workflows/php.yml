@@ -40,7 +40,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report-artifact
-        path: reports/
+        path: reports/index.xml
 
   codacy-coverage-reporter:
     needs: unit-test
@@ -53,12 +53,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-report-artifact
-          path: /
-      - run: ls -a
-
+          path: reports
           
-      # - name: Run codacy-coverage-reporter
-      #   uses: codacy/codacy-coverage-reporter-action@v1.3.0
-      #   with:
-      #     project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-      #     coverage-reports: projects/index.xml
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: projects/index.xml
