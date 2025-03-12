@@ -37,8 +37,3 @@ jobs:
 
     - name: Generate test coverage
       run: composer run-script test:coverage
-
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2.3.6
-      with:
-        file: reports/index.xml
