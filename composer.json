@@ -23,7 +23,10 @@
     "phpunit/php-code-coverage": "^11.0"
   },
   "scripts": {
-    "test": "phpunit ./tests/",
-    "coverage": "phpunit --coverage-xml ./reports"
+    "test:unit": "phpunit ./tests/",
+    "test:coverage": [
+      "@putenv XDEBUG_MODE=coverage",
+      "phpunit --coverage-xml ./reports"
+    ]
   }
 }

@@ -32,11 +32,11 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    - name: Run test suite
-      run: composer run-script test
+    - name: Run unit tests
+      run: composer run-script test:unit
 
     - name: Generate test coverage
-      run: composer run-script coverage
+      run: composer run-script test:coverage
 
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v2.3.6
