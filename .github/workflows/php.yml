@@ -34,6 +34,3 @@ jobs:
 
     - name: Run unit tests
       run: composer run-script test:unit
-
-    - name: Generate test coverage
-      run: composer run-script test:coverage
