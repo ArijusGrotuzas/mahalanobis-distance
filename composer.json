@@ -1,6 +1,8 @@
 {
-  "name": "arig/mahalanobis-distance",
-  "description": "Mahalanobis distance",
+  "name": "arig/mahalanobis",
+  "description": "Mahalanobis distance in PHP",
+  "keywords": ["mahalanobis", "distance", "statistics"],
+  "homepage": "https://github.com/ArijusGrotuzas/mahalanobis-distance",
   "autoload": {
     "psr-4": {
       "Arig\\MahalanobisDistance\\": "src/"
@@ -9,7 +11,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Arijus Grotuzas"
+      "name": "Arijus Grotuzas",
+      "email": "arijusgrotuzas@gmail.com"
     }
   ],
   "require": {
