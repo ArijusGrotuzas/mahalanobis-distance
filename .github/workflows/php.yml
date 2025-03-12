@@ -53,9 +53,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-report-artifact
+          path: /
+      - run: ls -a
 
-      - name: Test artifact
-        run: ls -a
           
       # - name: Run codacy-coverage-reporter
       #   uses: codacy/codacy-coverage-reporter-action@v1.3.0
