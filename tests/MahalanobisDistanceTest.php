@@ -4,7 +4,8 @@ use Arig\MahalanobisDistance\MahalanobisDistance;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(MahalanobisDistance::class)] final class MahalanobisDistanceTest extends TestCase
+#[CoversClass(MahalanobisDistance::class)]
+final class MahalanobisDistanceTest extends TestCase
 {
     public function testMahalanobis(): void
     {
