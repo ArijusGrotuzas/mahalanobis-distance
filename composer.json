@@ -4,10 +4,7 @@
   "autoload": {
     "psr-4": {
       "Arig\\MahalanobisDistance\\": "src/"
-    },
-    "files": [
-      "src/Math/helpers.php"
-    ]
+    }
   },
   "license": "MIT",
   "authors": [

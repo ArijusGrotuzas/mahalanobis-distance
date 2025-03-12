@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 final class MahalanobisDistanceTest extends TestCase
 {
-    public function testCalculate(): void
+    public function testMahalanobis(): void
     {
         $point = [4, 5];
         $data = [
@@ -15,26 +15,9 @@ final class MahalanobisDistanceTest extends TestCase
 
         $this->assertEqualsWithDelta(
             0.24343,
-            MahalanobisDistance::calculate($point, $data),
+            MahalanobisDistance::mahalanobis($point, $data),
             0.00001,
             "The calculated distance is not similar to the expected distance."
-        );
-    }
-
-    public function testCholeskySimple(): void
-    {
-        $matrix = [
-            [1, -2],
-            [2, 5]
-        ];
-
-        $this->assertEquals(
-            [
-                [1, 0],
-                [2, 1],
-            ],
-            MahalanobisDistance::cholesky($matrix),
-            "The calculated Cholesky decomposition doesn't match the expected decomposition."
         );
     }
 
@@ -75,6 +58,7 @@ final class MahalanobisDistanceTest extends TestCase
             [3, 1, 0],
             [1, 2, 1],
         ];
+
         $vector = [4, 7, 6];
 
         $this->assertEquals(

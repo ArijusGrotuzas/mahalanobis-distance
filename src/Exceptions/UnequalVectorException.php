@@ -4,6 +4,6 @@ namespace Arig\MahalanobisDistance\Exceptions;
 
 use InvalidArgumentException;
 
-class SingularMatrixException extends InvalidArgumentException
+class UnequalVectorException extends InvalidArgumentException
 {
 }
