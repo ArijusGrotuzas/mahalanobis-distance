@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  unit-test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -31,34 +31,12 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run unit tests
-      run: composer run-script test:unit
+      run: composer test:unit
 
     - name: Generate coverage report
-      run: composer run-script test:coverage
+      run: composer test:coverage
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
+    - name: Run codacy-coverage-reporter
+      uses: codacy/codacy-coverage-reporter-action@v1.3.0
       with:
-        name: coverage-report-artifact
-        path: reports/index.xml
-
-  codacy-coverage-reporter:
-    needs: unit-test
-    runs-on: ubuntu-latest
-    name: codacy-coverage-reporter
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Download coverage report
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-report-artifact
-          path: reports/
-          
-      - run: pwd && ls -a
-          
-      - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1.3.0
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: reports/index.xml
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
