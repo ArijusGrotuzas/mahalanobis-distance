@@ -55,7 +55,7 @@ jobs:
           name: coverage-report-artifact
           path: reports/
           
-      - run: cd reports && ls -a
+      - run: pwd && ls -a
           
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
