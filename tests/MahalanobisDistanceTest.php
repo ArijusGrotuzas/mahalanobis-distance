@@ -1,5 +1,8 @@
 <?php
 
+use Arig\MahalanobisDistance\Exceptions\InvalidDatasetSizeException;
+use Arig\MahalanobisDistance\Exceptions\NonSquareMatrixException;
+use Arig\MahalanobisDistance\Exceptions\UnequalVectorException;
 use Arig\MahalanobisDistance\MahalanobisDistance;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +26,7 @@ final class MahalanobisDistanceTest extends TestCase
         );
     }
 
-    public function testCholeskyMedium(): void
+    public function testCholesky(): void
     {
         $matrix = [
             [18, 22, 54, 42],
@@ -68,5 +71,43 @@ final class MahalanobisDistanceTest extends TestCase
             MahalanobisDistance::forwardSubstitution($matrix, $vector),
             "The calculated forward substitution doesn't match the expected result."
         );
+    }
+
+    // TODO: Test exception handling
+    public function testMahalanobisValidatesDataset(): void {
+        $this->expectException(InvalidDatasetSizeException::class);
+
+        $point = [4, 5];
+
+        $data = [
+            [2, 3, 4, 5, 6],
+            [3, 5, 4]
+        ];
+
+        MahalanobisDistance::mahalanobis($point, $data);
+    }
+
+    public function testMahalanobisValidatesPoint(): void {
+        $this->expectException(UnequalVectorException::class);
+
+        $point = [4, 5, 6];
+
+        $data = [
+            [2, 3, 4, 5, 6],
+            [3, 5, 4, 6, 8]
+        ];
+
+        MahalanobisDistance::mahalanobis($point, $data);
+    }
+
+    public function testCholeskyValidatesMatrix(): void {
+        $this->expectException(NonSquareMatrixException::class);
+
+        $matrix = [
+            [2, 3, 4, 5, 6],
+            [3, 5, 4]
+        ];
+
+        MahalanobisDistance::cholesky($matrix);
     }
 }

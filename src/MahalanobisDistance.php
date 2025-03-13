@@ -5,7 +5,6 @@ namespace Arig\MahalanobisDistance;
 use Arig\MahalanobisDistance\Exceptions\InvalidDatasetSizeException;
 use Arig\MahalanobisDistance\Exceptions\NonSquareMatrixException;
 use Arig\MahalanobisDistance\Exceptions\UnequalVectorException;
-use InvalidArgumentException;
 
 /**
  * The Mahalanobis distance is a measure of the distance between a point P and a distribution D.
@@ -24,6 +23,7 @@ class MahalanobisDistance
      */
     public static function mahalanobis(array $x, array $data): float
     {
+        // TODO: Change representation of data, columns should be variables, and row should be observations
         $covarianceMat = self::covarianceMatrix($data);
         $meanVector = self::meanVector($data);
 
@@ -212,7 +212,7 @@ class MahalanobisDistance
 
     /**
      * @param array<array<float|int>> $matrix
-     * @throws InvalidArgumentException
+     * @throws NonSquareMatrixException
      * @return void
      */
     private static function isSquareMatrix(array $matrix): void
